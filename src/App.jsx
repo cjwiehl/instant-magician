@@ -30,7 +30,7 @@ const App = () => {
   // --- CONFIGURATION ---
   const TARGET_URL = 'https://www.chriswheel.com';
 
-  const FINALE_SONG_URL = 'https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3';
+  const FINALE_SONG_URL = 'https://cdn1.suno.ai/436bd471-0369-4a2d-8db0-1541e0a671b0.mp3';
   const MAGIC_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3';
   const TIMER_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3';
 
