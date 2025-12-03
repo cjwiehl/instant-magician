@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Instant Magician</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <style>
+        /* Import Poppins Font */
+        @import url('[https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap)');
+        
+        body { 
+            font-family: 'Poppins', sans-serif;
+            background-color: #111111;
+            margin: 0;
+            padding: 0;
+        }
+        /* Hide scrollbars for cleaner look */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #root { min-height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <!-- This links to the React code -->
+    <script type="module" src="/src/index.js"></script>
+</body>
+</html>
