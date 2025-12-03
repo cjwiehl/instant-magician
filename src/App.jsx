@@ -24,11 +24,11 @@ const App = () => {
   const [confirmationText, setConfirmationText] = useState('');
 
   // --- CONFIGURATION ---
-  const TARGET_URL = "https://www.chriswheel.com"; 
+  const TARGET_URL = "[https://www.chriswheel.com](https://www.chriswheel.com)"; 
   
-  const FINALE_SONG_URL = "https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3"; 
-  const MAGIC_SOUND_URL = "https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3"; 
-  const TIMER_SOUND_URL = "https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3"; 
+  const FINALE_SONG_URL = "[https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3](https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3)"; 
+  const MAGIC_SOUND_URL = "[https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3](https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3)"; 
+  const TIMER_SOUND_URL = "[https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3](https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3)"; 
   
   const audioRef = useRef(new Audio(MAGIC_SOUND_URL));
   const finaleRef = useRef(new Audio(FINALE_SONG_URL));
