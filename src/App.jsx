@@ -206,8 +206,8 @@ const App = () => {
           {
             q: 'Perfect. Now, was it a **HIGH** or **LOW** number?',
             options: [
-              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'Knew it, I am so good at this!' },
               { label: 'LOW (Ace-5)', key: 'value', value: 'Low', joke: 'Knew it, I am so good at this!' },
+              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'Knew it, I am so good at this!' },
             ],
           },
         ]
