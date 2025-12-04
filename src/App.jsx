@@ -272,24 +272,26 @@ const App = () => {
       <h2 className="text-3xl font-bold text-white mb-8 uppercase tracking-wide">Script Guide</h2>
 
       <div className="space-y-8 bg-[#1a1a1a] p-8 w-full shadow-2xl border-l-4 border-[#D4C5B0]">
+        {/* SPOKEN LINES = GREEN */}
         <div className="flex items-start gap-6 text-left">
-          <div className="bg-red-500/10 p-3 rounded-full">
-            <Mic className="w-6 h-6 text-red-400" />
+          <div className="bg-emerald-500/10 p-3 rounded-full">
+            <Mic className="w-6 h-6 text-emerald-400" />
           </div>
           <div>
-            <h3 className="text-red-400 font-bold text-lg uppercase tracking-wider mb-1">Red Text</h3>
+            <h3 className="text-emerald-400 font-bold text-lg uppercase tracking-wider mb-1">Green Text</h3>
             <p className="text-gray-400 text-sm font-light">Read these words out loud to the audience.</p>
           </div>
         </div>
 
         <div className="w-full h-px bg-white/5" />
 
+        {/* SILENT ACTIONS = RED */}
         <div className="flex items-start gap-6 text-left">
-          <div className="bg-emerald-500/10 p-3 rounded-full">
-            <Hand className="w-6 h-6 text-emerald-400" />
+          <div className="bg-red-500/10 p-3 rounded-full">
+            <Hand className="w-6 h-6 text-red-400" />
           </div>
           <div>
-            <h3 className="text-emerald-400 font-bold text-lg uppercase tracking-wider mb-1">Green Text</h3>
+            <h3 className="text-red-400 font-bold text-lg uppercase tracking-wider mb-1">Red Text</h3>
             <p className="text-gray-400 text-sm font-light">These are silent actions for you to perform.</p>
           </div>
         </div>
@@ -306,13 +308,13 @@ const App = () => {
 
   const renderIntro = () => (
     <ScriptView onNext={() => setStage('deckCheck')}>
-      <p className="text-3xl md:text-5xl leading-tight text-red-400 font-bold drop-shadow-md">
+      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold drop-shadow-md">
         "HELLO {audienceName}! I am {magicianName} the Great."
       </p>
-      <p className="text-3xl md:text-5xl leading-tight text-red-400 font-bold drop-shadow-md">
+      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold drop-shadow-md">
         "For the next 2 minutes, I am the greatest magician in this room. Sorry, but it's true."
       </p>
-      <p className="text-xl text-emerald-400 italic font-light tracking-wide border-l-2 border-emerald-500 pl-4">
+      <p className="text-xl text-red-400 italic font-light tracking-wide border-l-2 border-red-500 pl-4">
         (Strike a confident pose)
       </p>
     </ScriptView>
@@ -320,7 +322,7 @@ const App = () => {
 
   const renderDeckCheck = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
-      <p className="text-3xl md:text-5xl leading-tight text-red-400 font-bold mb-12">
+      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold mb-12">
         "Do you happen to have a normal, regular deck of cards I can borrow for this trick?"
       </p>
 
@@ -349,7 +351,7 @@ const App = () => {
 
   const renderTimer = () => (
     <div className="flex flex-col h-full justify-center items-center text-center px-6 font-['Poppins']">
-      <p className="text-2xl md:text-4xl text-red-400 font-bold mb-12 leading-relaxed">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-12 leading-relaxed">
         "Well darn... I guess we'll wait for you to find one. You have 10 seconds!"
       </p>
 
@@ -381,13 +383,13 @@ const App = () => {
 
   const renderTrickShuffle = () => (
     <ScriptView onNext={() => setStage('trick_select')}>
-      <p className="text-xl text-emerald-400 italic mb-6 font-light border-l-2 border-emerald-500 pl-4">
+      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
         (Hand the deck to Chris)
       </p>
-      <p className="text-3xl md:text-5xl text-red-400 font-bold mb-8 leading-tight">
+      <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-8 leading-tight">
         "Please shuffle the deck as much as you want. Really mix them up!"
       </p>
-      <p className="text-3xl md:text-5xl text-red-400 font-bold leading-tight">
+      <p className="text-3xl md:text-5xl text-emerald-400 font-bold leading-tight">
         "Let me know when you are satisfied."
       </p>
     </ScriptView>
@@ -395,17 +397,17 @@ const App = () => {
 
   const renderTrickSelect = () => (
     <ScriptView onNext={() => setStage('choose_number_mode')}>
-      <p className="text-3xl md:text-4xl text-red-400 font-bold mb-6 leading-tight">
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold mb-6 leading-tight">
         "Ok now Chris, I want you to take any card out and peek at it."
       </p>
-      <p className="text-3xl md:text-4xl text-red-400 font-bold mb-6 leading-tight">
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold mb-6 leading-tight">
         "Make sure I do not see it, and make sure{' '}
         <span className="underline decoration-[#D4C5B0] underline-offset-4">nobody here</span> sees it."
       </p>
-      <p className="text-xl text-emerald-400 italic mb-6 font-light border-l-2 border-emerald-500 pl-4">
+      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
         (Briefly turn your body to the side, away from Chris, so you cannot see the card he chooses.)
       </p>
-      <p className="text-3xl md:text-4xl text-red-400 font-bold leading-tight">
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
         "Now lose the card back in the deck and shuffle again. Destroy the evidence. Tell me when you're done."
       </p>
     </ScriptView>
@@ -413,10 +415,10 @@ const App = () => {
 
   const renderChooseNumberMode = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
-      <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">
+      <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">
         "Now I'm going to say a number between 1 and 52."
       </p>
-      <p className="text-lg text-emerald-400 italic mb-12 font-light">
+      <p className="text-lg text-red-400 italic mb-12 font-light">
         (Choose any number OR click below to generate a random one.)
       </p>
       <div className="space-y-6 w-full">
@@ -432,9 +434,7 @@ const App = () => {
         </button>
         <div className="text-gray-600 text-xs font-bold uppercase tracking-[0.3em]">OR</div>
         <div className="bg-[#1a1a1a] p-6 border-l-4 border-[#D4C5B0]">
-          <p className="text-gray-400 mb-4 text-sm uppercase tracking-wider">
-            The number you named is...
-          </p>
+          <p className="text-gray-400 mb-4 text-sm uppercase tracking-wider">The number you named is...</p>
           <input
             type="number"
             min="1"
@@ -467,80 +467,76 @@ const App = () => {
         <div className="text-8xl font-bold text-white font-['Poppins'] tracking-tighter">{targetNumber}</div>
       </div>
 
-      <p className="text-3xl md:text-4xl text-red-400 font-bold leading-tight">
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
         "When I snap my fingers, your card will end up at the {targetNumber}th position."
       </p>
-      <p className="text-xl text-emerald-400 italic mb-6 font-light border-l-2 border-emerald-500 pl-4">
+      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
         (Snap your fingers.)
       </p>
-      <p className="text-3xl md:text-4xl text-red-400 font-bold leading-tight">
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
         "So deal down {targetNumber - 1} cards and put the {targetNumber}th card next to the pile."
       </p>
     </ScriptView>
   );
 
- const renderQuestions = () => {
-  const currentQ = questionFlow[questionStep];
+  const renderQuestions = () => {
+    const currentQ = questionFlow[questionStep];
 
-  const handleAnswer = (option) => {
-    setCardAttributes({ ...cardAttributes, [option.key]: option.value });
-    setConfirmationText(option.joke);
-    setStage('confirmation');
-    playMagicSound();
-  };
+    const handleAnswer = option => {
+      setCardAttributes({ ...cardAttributes, [option.key]: option.value });
+      setConfirmationText(option.joke);
+      setStage('confirmation');
+      playMagicSound();
+    };
 
-  return (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
-      
-      <div className="flex-grow flex flex-col justify-center space-y-8">
+    return (
+      <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
+        <div className="flex-grow flex flex-col justify-center space-y-8">
+          {/* SPOKEN QUESTION (GREEN) */}
+          <p className="text-3xl md:text-5xl text-emerald-400 font-bold text-center leading-tight">
+            "{currentQ.q}"
+          </p>
 
-        {/* RED QUESTION TEXT */}
-        <p className="text-3xl md:text-5xl text-red-400 font-bold text-center leading-tight">
-          "{currentQ.q}"
-        </p>
+          {/* UI HINT (NEUTRAL) */}
+          <p className="text-lg text-gray-400 italic font-light text-center">
+            Click the correct choice below.
+          </p>
 
-        {/* NEW GREEN TEXT BELOW */}
-        <p className="text-lg text-emerald-400 italic font-light text-center">
-          Click the correct choice below.
-        </p>
-
-        {/* ANSWER BUTTONS */}
-        <div className="grid grid-cols-2 gap-4">
-          {currentQ.options.map((opt, i) => (
-            <button
-              key={i}
-              onClick={() => handleAnswer(opt)}
-              className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
-            >
-              {opt.label}
-            </button>
-          ))}
+          {/* ANSWER BUTTONS */}
+          <div className="grid grid-cols-2 gap-4">
+            {currentQ.options.map((opt, i) => (
+              <button
+                key={i}
+                onClick={() => handleAnswer(opt)}
+                className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
 
+        {/* MISTAKE BUTTON */}
+        <div className="mt-auto pt-6 border-t border-gray-800 text-center">
+          <button
+            onClick={handleMessedUp}
+            className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            Wait, I messed up
+          </button>
+        </div>
       </div>
-
-      {/* MISTAKE BUTTON */}
-      <div className="mt-auto pt-6 border-t border-gray-800 text-center">
-        <button
-          onClick={handleMessedUp}
-          className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
-        >
-          <AlertTriangle className="w-4 h-4" />
-          Wait, I messed up
-        </button>
-      </div>
-    </div>
-  );
-};
-
+    );
+  };
 
   const renderConfirmation = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 justify-center items-center text-center animate-fadeIn relative font-['Poppins']">
       <Sparkles className="w-12 h-12 text-[#D4C5B0] mb-8 animate-bounce" />
-      <p className="text-5xl text-red-400 font-bold mb-12 leading-tight">"{confirmationText}"</p>
+      <p className="text-5xl text-emerald-400 font-bold mb-12 leading-tight">"{confirmationText}"</p>
       <button
         onClick={handleProceedToNextQuestion}
-        className="px-10 py-5 bg-[#D4C5B0] hover:bg-white text-black rounded-sm text-lg font-bold uppercase tracking-[0.2em] shadow-lg transition-all"
+        className="px-10 py-5 bg-[#D4C5B0] hover:bg:white text-black rounded-sm text-lg font-bold uppercase tracking-[0.2em] shadow-lg transition-all"
       >
         Continue
       </button>
@@ -559,15 +555,16 @@ const App = () => {
   const renderAskSpecific = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
       <div className="flex-grow flex flex-col justify-center space-y-8">
-        <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">
+        <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">
           "Now, for the first time, what card did you select?"
         </p>
-        <p className="text-xl text-emerald-400 italic mb-8 font-light border-l-2 border-emerald-500 pl-4">
+        <p className="text-xl text-red-400 italic mb-8 font-light border-l-2 border-red-500 pl-4">
           (Wait for Chris to name the card.)
         </p>
-        <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">"I knew it."</p>
-        <p className="text-3xl md:text-5xl text-red-400 font-bold leading-tight">
-          "Just to recap, you shuffled the deck, then peeked at any card and lost it again. I named a magic number, and you dealt down {targetNumber} cards and ended up at one card. Turn it over."
+        <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">"I knew it."</p>
+        <p className="text-3xl md:text-5xl text-emerald-400 font-bold leading-tight">
+          "Just to recap, you shuffled the deck, then peeked at any card and lost it again. I named a magic number,
+          and you dealt down {targetNumber} cards and ended up at one card. Turn it over."
         </p>
       </div>
 
@@ -577,7 +574,7 @@ const App = () => {
             setStage('finale');
             playMagicSound();
           }}
-          className="w-full py-6 bg-[#D4C5B0] hover:bg-white text-black text-xl font-bold uppercase tracking-[0.2em] shadow-lg transition-all flex items-center justify-center gap-3"
+          className="w-full py-6 bg-[#D4C5B0] hover:bg:white text-black text-xl font-bold uppercase tracking-[0.2em] shadow-lg transition-all flex items-center justify-center gap-3"
         >
           Reveal <ArrowRight className="w-6 h-6" />
         </button>
@@ -599,7 +596,7 @@ const App = () => {
     <div className="flex flex-col items-center justify-center h-full text-center animate-fadeIn px-6 bg-red-950/20 font-['Poppins']">
       <AlertTriangle className="w-16 h-16 text-orange-500 mb-6" />
       <h2 className="text-2xl text-orange-200 mb-8 font-bold uppercase tracking-widest">Correction Mode</h2>
-      <p className="text-4xl text-red-400 font-bold mb-12">
+      <p className="text-4xl text-emerald-400 font-bold mb-12">
         "OH... the spirits are confused. I meant to say...."
       </p>
       <button
@@ -619,12 +616,12 @@ const App = () => {
 
       <div className="relative z-10 w-full max-w-md">
         <div className="mb-12">
-          <p className="text-5xl md:text-7xl text-red-400 font-bold drop-shadow-2xl tracking-tighter uppercase mb-6">
+          <p className="text-5xl md:text-7xl text-emerald-400 font-bold drop-shadow-2xl tracking-tighter uppercase mb-6">
             "Amazing. I'm the best."
           </p>
-          <p className="text-red-400 text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4 leading-tight">
-  "Give me a round of applause."
-</p>
+          <p className="text-3xl md:text-5xl text-emerald-400 font-bold uppercase tracking-tight mb-4 leading-tight">
+            "Give me a round of applause."
+          </p>
         </div>
 
         <p className="text-[#D4C5B0] italic mb-12 font-light tracking-widest text-sm">
@@ -635,7 +632,7 @@ const App = () => {
           onClick={() => {
             window.location.href = TARGET_URL;
           }}
-          className="w-full py-6 bg-[#D4C5B0] hover:bg-white text-black rounded-sm font-bold text-xl uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,197,176,0.3)] mb-6 transition-all transform hover:scale-105"
+          className="w-full py-6 bg-[#D4C5B0] hover:bg:white text-black rounded-sm font-bold text-xl uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,197,176,0.3)] mb-6 transition-all transform hover:scale-105"
         >
           Take a Bow
         </button>
@@ -689,9 +686,18 @@ const App = () => {
             className="h-full bg-[#D4C5B0] transition-all duration-700 ease-out"
             style={{
               width: `${
-                ['instructions', 'intro', 'deckCheck', 'deckTimer', 'trick_shuffle', 'trick_select', 'choose_number_mode', 'deal_number', 'questions', 'ask_specific_card'].indexOf(
-                  stage,
-                ) * 10
+                [
+                  'instructions',
+                  'intro',
+                  'deckCheck',
+                  'deckTimer',
+                  'trick_shuffle',
+                  'trick_select',
+                  'choose_number_mode',
+                  'deal_number',
+                  'questions',
+                  'ask_specific_card',
+                ].indexOf(stage) * 10
               }%`,
             }}
           />
