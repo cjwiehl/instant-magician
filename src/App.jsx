@@ -218,7 +218,6 @@ const App = () => {
 
   const ScriptView = ({ children, onNext, nextLabel = 'NEXT STEP' }) => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-4 animate-fadeIn font-['Poppins']">
-      {/* This is the part that vertically centers content and scrolls inside ONLY if truly needed */}
       <div className="flex-grow flex flex-col justify-center space-y-4 overflow-y-auto min-h-0 scrollbar-hide">
         {children}
       </div>
@@ -494,7 +493,6 @@ const App = () => {
 
     return (
       <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-6 animate-fadeIn font-['Poppins']">
-        {/* Scrollable content (only inside this box, not whole page) */}
         <div className="flex-grow flex flex-col justify-center space-y-4 overflow-y-auto min-h-0">
           {/* SPOKEN QUESTION (GREEN) */}
           <p className="text-2xl md:text-4xl text-emerald-400 font-bold text-center leading-tight">
@@ -521,7 +519,7 @@ const App = () => {
         </div>
 
         {/* MISTAKE BUTTON */}
-        <div className="mt-auto pt-4 border-top border-gray-800 text-center">
+        <div className="mt-auto pt-4 border-t border-gray-800 text-center">
           <button
             onClick={handleMessedUp}
             className="text-gray-500 hover:text-white text-[0.65rem] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
@@ -658,14 +656,13 @@ const App = () => {
 
   // --- MAIN RENDER ---
   return (
-    <div className="h-screen bg-[#111111] text-white overflow-hidden font-sans flex flex-col selection:bg-[#D4C5B0] selection:text-black">
-      {/* Global styles: lock viewport and remove body margin */}
+    <div className="min-h-screen bg-[#111111] text-white font-sans flex flex-col selection:bg-[#D4C5B0] selection:text-black">
+      {/* Global styles (no more overflow:hidden on whole page) */}
       <style>{`
         html, body, #root {
           height: 100%;
           margin: 0;
           padding: 0;
-          overflow: hidden;
         }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
         .scrollbar-hide::-webkit-scrollbar {
@@ -677,7 +674,7 @@ const App = () => {
         }
       `}</style>
 
-      <main className="relative z-10 flex-grow w-full max-w-4xl mx-auto p-0 flex flex-col h-screen">
+      <main className="relative z-10 flex-grow w-full max-w-4xl mx-auto p-0 flex flex-col">
         {stage === 'setup' && renderSetup()}
         {stage === 'instructions' && renderInstructions()}
         {stage === 'intro' && renderIntro()}
@@ -696,7 +693,7 @@ const App = () => {
 
       {/* Progress bar */}
       {!['setup', 'finale', 'apology', 'confirmation'].includes(stage) && (
-        <div className="fixed bottom-0 left-0 w-full h-2 bg-black z-50">
+        <div className="w-full h-2 bg-black">
           <div
             className="h-full bg-[#D4C5B0] transition-all duration-700 ease-out"
             style={{
