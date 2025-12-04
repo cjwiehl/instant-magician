@@ -197,8 +197,8 @@ const App = () => {
     {
       q: 'Is your card a **NUMBER** card or a **PICTURE** card?',
       options: [
-        { label: 'NUMBER', key: 'type', value: 'Number', joke: 'You are Correct! It IS a number card.' },
-        { label: 'PICTURE', key: 'type', value: 'Picture', joke: 'You are Correct! It IS a FACE card' },
+        { label: 'NUMBER', key: 'type', value: 'Number', joke: 'You are correct! It IS a number card.' },
+        { label: 'PICTURE', key: 'type', value: 'Picture', joke: 'You are correct! It IS a face card.' },
       ],
     },
     ...(cardAttributes.type === 'Number'
@@ -206,8 +206,8 @@ const App = () => {
           {
             q: 'Perfect. Now, was it a **HIGH** or **LOW** number?',
             options: [
-              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'Knew it, I am soo good at this!' },
-              { label: 'LOW (Ace-5)', key: 'value', value: 'Low', joke: 'Knew it, I am soo good at this!' },
+              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'Knew it, I am so good at this!' },
+              { label: 'LOW (Ace-5)', key: 'value', value: 'Low', joke: 'Knew it, I am so good at this!' },
             ],
           },
         ]
@@ -279,7 +279,7 @@ const App = () => {
           </div>
           <div>
             <h3 className="text-emerald-400 font-bold text-lg uppercase tracking-wider mb-1">Green Text</h3>
-            <p className="text-gray-400 text-sm font-light">Read these words out loud to the audience.</p>
+            <p className="text-gray-400 text-sm font-light">Say these words out loud to the audience.</p>
           </div>
         </div>
 
@@ -292,7 +292,7 @@ const App = () => {
           </div>
           <div>
             <h3 className="text-red-400 font-bold text-lg uppercase tracking-wider mb-1">Red Text</h3>
-            <p className="text-gray-400 text-sm font-light">These are silent actions for you to perform.</p>
+            <p className="text-gray-400 text-sm font-light">These are silent actions or stage directions for you.</p>
           </div>
         </div>
       </div>
@@ -451,7 +451,7 @@ const App = () => {
                 setStage('deal_number');
               }
             }}
-            className="w-full py-4 bg-[#D4C5B0] hover:bg-white text-black text-sm font-bold uppercase tracking-[0.2em] transition-all"
+            className="w-full py-4 bg-[#D4C5B0] hover:bg:white text-black text-sm font-bold uppercase tracking-[0.2em] transition-all"
           >
             Use That Number
           </button>
@@ -490,25 +490,26 @@ const App = () => {
     };
 
     return (
-      <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
-        <div className="flex-grow flex flex-col justify-center space-y-8">
+      <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-6 animate-fadeIn font-['Poppins']">
+        {/* Scrollable content */}
+        <div className="flex-grow flex flex-col justify-center space-y-4 overflow-y-auto min-h-0">
           {/* SPOKEN QUESTION (GREEN) */}
-          <p className="text-3xl md:text-5xl text-emerald-400 font-bold text-center leading-tight">
+          <p className="text-2xl md:text-4xl text-emerald-400 font-bold text-center leading-tight">
             "{currentQ.q}"
           </p>
 
-          {/* UI HINT (NEUTRAL) */}
-          <p className="text-lg text-gray-400 italic font-light text-center">
+          {/* Hint */}
+          <p className="text-sm text-gray-400 italic font-light text-center">
             Click the correct choice below.
           </p>
 
-          {/* ANSWER BUTTONS */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Buttons */}
+          <div className="grid grid-cols-2 gap-3">
             {currentQ.options.map((opt, i) => (
               <button
                 key={i}
                 onClick={() => handleAnswer(opt)}
-                className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
+                className="py-5 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-base font-bold uppercase tracking-widest transition-all"
               >
                 {opt.label}
               </button>
@@ -517,10 +518,10 @@ const App = () => {
         </div>
 
         {/* MISTAKE BUTTON */}
-        <div className="mt-auto pt-6 border-t border-gray-800 text-center">
+        <div className="mt-auto pt-4 border-t border-gray-800 text-center">
           <button
             onClick={handleMessedUp}
-            className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+            className="text-gray-500 hover:text-white text-[0.65rem] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
           >
             <AlertTriangle className="w-4 h-4" />
             Wait, I messed up
@@ -650,8 +651,8 @@ const App = () => {
 
   // --- MAIN RENDER ---
   return (
-    <div className="min-h-screen bg-[#111111] text-white overflow-hidden font-sans flex flex-col selection:bg-[#D4C5B0] selection:text-black">
-      {/* Font Import */}
+    <div className="h-screen bg-[#111111] text-white overflow-hidden font-sans flex flex-col selection:bg-[#D4C5B0] selection:text-black">
+      {/* Font Import + scrollbar hide */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
         .scrollbar-hide::-webkit-scrollbar {
@@ -680,6 +681,7 @@ const App = () => {
         {stage === 'finale' && renderFinale()}
       </main>
 
+      {/* Progress bar */}
       {!['setup', 'finale', 'apology', 'confirmation'].includes(stage) && (
         <div className="fixed bottom-0 left-0 w-full h-2 bg-black z-50">
           <div
@@ -704,6 +706,7 @@ const App = () => {
         </div>
       )}
 
+      {/* Animations */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
