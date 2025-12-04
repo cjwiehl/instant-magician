@@ -170,13 +170,13 @@ const App = () => {
                 label: 'HEART',
                 key: 'suit',
                 value: 'Heart',
-                joke: `I knew you picked a Heart!`,
+                joke: `I knew that too!`,
               },
               {
                 label: 'DIAMOND',
                 key: 'suit',
                 value: 'Diamond',
-                joke: `I knew you picked a Diamond!`,
+                joke: `I knew that too!`,
               },
             ]
           : [
@@ -184,21 +184,21 @@ const App = () => {
                 label: 'CLUB',
                 key: 'suit',
                 value: 'Club',
-                joke: `I knew you picked a Club!`,
+                joke: `I knew that too!`,
               },
               {
                 label: 'SPADE',
                 key: 'suit',
                 value: 'Spade',
-                joke: `I knew you picked a Spade!`,
+                joke: `I knew that too!`,
               },
             ],
     },
     {
-      q: 'Is your card a low value **NUMBER** card or a **PICTURE** card?',
+      q: 'Is your card a **NUMBER** card or a **PICTURE** card?',
       options: [
-        { label: 'NUMBER', key: 'type', value: 'Number', joke: 'I knew it was a Number card.' },
-        { label: 'PICTURE', key: 'type', value: 'Picture', joke: 'I knew it was a Face card.' },
+        { label: 'NUMBER', key: 'type', value: 'Number', joke: 'You are Correct! It IS a number card.' },
+        { label: 'PICTURE', key: 'type', value: 'Picture', joke: 'You are Correct! It IS a FACE card' },
       ],
     },
     ...(cardAttributes.type === 'Number'
@@ -206,8 +206,8 @@ const App = () => {
           {
             q: 'Perfect. Now, was it a **HIGH** or **LOW** number?',
             options: [
-              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'I knew it was a High value card!' },
-              { label: 'LOW (Ace-5)', key: 'value', value: 'Low', joke: 'I knew it was a Low value card!' },
+              { label: 'HIGH (6-10)', key: 'value', value: 'High', joke: 'Knew it, I am soo good at this!' },
+              { label: 'LOW (Ace-5)', key: 'value', value: 'Low', joke: 'Knew it, I am soo good at this!' },
             ],
           },
         ]
@@ -414,10 +414,10 @@ const App = () => {
   const renderChooseNumberMode = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
       <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">
-        "Now I'm going to think of a number between 1 and 52."
+        "Now I'm going to say a number between 1 and 52."
       </p>
       <p className="text-lg text-emerald-400 italic mb-12 font-light">
-        (Tell Chris to name any number, OR click below to generate a random one for him.)
+        (Choose any number OR click below to generate a random one.)
       </p>
       <div className="space-y-6 w-full">
         <button
@@ -433,7 +433,7 @@ const App = () => {
         <div className="text-gray-600 text-xs font-bold uppercase tracking-[0.3em]">OR</div>
         <div className="bg-[#1a1a1a] p-6 border-l-4 border-[#D4C5B0]">
           <p className="text-gray-400 mb-4 text-sm uppercase tracking-wider">
-            The number Chris named is...
+            The number you named is...
           </p>
           <input
             type="number"
@@ -551,14 +551,14 @@ const App = () => {
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
       <div className="flex-grow flex flex-col justify-center space-y-8">
         <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">
-          "And exactly what card was it?"
+          "Now, for the first time, what card did you select?"
         </p>
         <p className="text-xl text-emerald-400 italic mb-8 font-light border-l-2 border-emerald-500 pl-4">
-          (Wait for Chris to name the card. You already know the answer from their previous responses!)
+          (Wait for Chris to name the card.)
         </p>
         <p className="text-3xl md:text-5xl text-red-400 font-bold mb-6 leading-tight">"I knew it."</p>
         <p className="text-3xl md:text-5xl text-red-400 font-bold leading-tight">
-          "And you dealt down {targetNumber} cards and ended up at your card. Turn it over."
+          "Just to recap, you shuffled the deck, then peeked at any card and lost it again. I named a magic number, and you dealt down {targetNumber} cards and ended up at one card. Turn it over."
         </p>
       </div>
 
