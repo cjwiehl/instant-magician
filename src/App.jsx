@@ -674,7 +674,7 @@ const App = () => {
         }
       `}</style>
 
-      <main className="relative z-10 flex-grow w-full max-w-4xl mx-auto pt-4 pb-2 p-0 flex flex-col">
+      <main className="relative z-10 flex-grow w-full max-w-4xl mx-auto pt-6 pb-3 p-0 flex flex-col">
         {stage === 'setup' && renderSetup()}
         {stage === 'instructions' && renderInstructions()}
         {stage === 'intro' && renderIntro()}
