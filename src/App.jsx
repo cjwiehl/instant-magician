@@ -479,51 +479,60 @@ const App = () => {
     </ScriptView>
   );
 
-  const renderQuestions = () => {
-    const currentQ = questionFlow[questionStep];
+ const renderQuestions = () => {
+  const currentQ = questionFlow[questionStep];
 
-    const handleAnswer = option => {
-      setCardAttributes({ ...cardAttributes, [option.key]: option.value });
-      setConfirmationText(option.joke);
-      setStage('confirmation');
-      playMagicSound();
-    };
-
-    return (
-      <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
-        <div className="flex-grow flex flex-col justify-center">
-          <p className="text-emerald-400 italic mb-4 font-light text-center uppercase tracking-widest text-sm">
-            Ask Chris. Wait for the verbal answer, then click the matching button.
-          </p>
-          <p className="text-3xl md:text-5xl text-red-400 font-bold mb-12 text-center leading-tight">
-            "{currentQ.q}"
-          </p>
-
-          <div className="grid grid-cols-2 gap-4">
-            {currentQ.options.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => handleAnswer(opt)}
-                className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-auto pt-6 border-t border-gray-800 text-center">
-          <button
-            onClick={handleMessedUp}
-            className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
-          >
-            <AlertTriangle className="w-4 h-4" />
-            Wait, I messed up
-          </button>
-        </div>
-      </div>
-    );
+  const handleAnswer = (option) => {
+    setCardAttributes({ ...cardAttributes, [option.key]: option.value });
+    setConfirmationText(option.joke);
+    setStage('confirmation');
+    playMagicSound();
   };
+
+  return (
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
+      
+      <div className="flex-grow flex flex-col justify-center space-y-8">
+
+        {/* RED QUESTION TEXT */}
+        <p className="text-3xl md:text-5xl text-red-400 font-bold text-center leading-tight">
+          "{currentQ.q}"
+        </p>
+
+        {/* NEW GREEN TEXT BELOW */}
+        <p className="text-lg text-emerald-400 italic font-light text-center">
+          Click the correct choice below.
+        </p>
+
+        {/* ANSWER BUTTONS */}
+        <div className="grid grid-cols-2 gap-4">
+          {currentQ.options.map((opt, i) => (
+            <button
+              key={i}
+              onClick={() => handleAnswer(opt)}
+              className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+      </div>
+
+      {/* MISTAKE BUTTON */}
+      <div className="mt-auto pt-6 border-t border-gray-800 text-center">
+        <button
+          onClick={handleMessedUp}
+          className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+        >
+          <AlertTriangle className="w-4 h-4" />
+          Wait, I messed up
+        </button>
+      </div>
+    </div>
+  );
+};
+
 
   const renderConfirmation = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 justify-center items-center text-center animate-fadeIn relative font-['Poppins']">
