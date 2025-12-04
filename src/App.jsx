@@ -622,9 +622,9 @@ const App = () => {
           <p className="text-5xl md:text-7xl text-red-400 font-bold drop-shadow-2xl tracking-tighter uppercase mb-6">
             "Amazing. I'm the best."
           </p>
-          <p className="text-[#D4C5B0] text-xl font-bold uppercase tracking-[0.2em] mb-4">
-            "Give me a round of applause."
-          </p>
+          <p className="text-red-400 text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4 leading-tight">
+  "Give me a round of applause."
+</p>
         </div>
 
         <p className="text-[#D4C5B0] italic mb-12 font-light tracking-widest text-sm">
