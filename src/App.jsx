@@ -217,13 +217,14 @@ const App = () => {
   // --- RENDERERS ---
 
   const ScriptView = ({ children, onNext, nextLabel = 'NEXT STEP' }) => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 pt-12 pb-8 animate-fadeIn font-['Poppins']">
-      <div className="flex-grow flex flex-col justify-center space-y-6 overflow-y-auto min-h-0 scrollbar-hide">
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-4 animate-fadeIn font-['Poppins']">
+      {/* This is the part that vertically centers content and scrolls inside ONLY if truly needed */}
+      <div className="flex-grow flex flex-col justify-center space-y-4 overflow-y-auto min-h-0 scrollbar-hide">
         {children}
       </div>
       <button
         onClick={onNext}
-        className="shrink-0 w-full py-5 mt-6 bg-[#D4C5B0] hover:bg-[#c2b29c] rounded-sm text-black text-lg font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 shadow-lg"
+        className="shrink-0 w-full py-4 mt-4 bg-[#D4C5B0] hover:bg-[#c2b29c] rounded-sm text-black text-lg font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 shadow-lg"
       >
         {nextLabel} <ArrowRight className="w-5 h-5" />
       </button>
@@ -231,31 +232,31 @@ const App = () => {
   );
 
   const renderSetup = () => (
-    <div className="flex flex-col items-center justify-center h-full space-y-8 animate-fadeIn max-w-md mx-auto px-6 font-['Poppins'] relative z-10">
-      <div className="text-center space-y-4">
+    <div className="flex flex-col items-center justify-center h-full space-y-6 animate-fadeIn max-w-md mx-auto px-6 font-['Poppins'] relative z-10">
+      <div className="text-center space-y-3">
         <h1 className="text-4xl md:text-6xl font-bold text-white uppercase leading-tight tracking-wider">
           THE INSTANT
           <br />
           MAGICIAN
         </h1>
-        <div className="w-16 h-1 bg-[#D4C5B0] mx-auto mt-6"></div>
+        <div className="w-16 h-1 bg-[#D4C5B0] mx-auto mt-2"></div>
       </div>
 
-      <p className="text-gray-400 text-center font-light">Enter your name to become an amazing magician.</p>
+      <p className="text-gray-400 text-center font-light text-sm">Enter your name to become an amazing magician.</p>
 
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-3">
         <input
           type="text"
           value={magicianName}
           onChange={e => setMagicianName(e.target.value)}
           placeholder="YOUR NAME"
-          className="w-full px-6 py-4 bg-transparent border-b-2 border-gray-700 text-center text-white text-xl placeholder-gray-600 focus:outline-none focus:border-[#D4C5B0] transition-colors uppercase font-bold tracking-wider"
+          className="w-full px-6 py-3 bg-transparent border-b-2 border-gray-700 text-center text-white text-xl placeholder-gray-600 focus:outline-none focus:border-[#D4C5B0] transition-colors uppercase font-bold tracking-wider"
         />
 
         <button
           onClick={handleStart}
           disabled={!magicianName.trim()}
-          className={`w-full py-4 mt-4 font-bold text-sm tracking-[0.2em] uppercase transition-all ${
+          className={`w-full py-3 mt-2 font-bold text-sm tracking-[0.2em] uppercase transition-all ${
             magicianName.trim()
               ? 'bg-[#D4C5B0] text-black hover:bg-white shadow-lg'
               : 'bg-gray-800 text-gray-500 cursor-not-allowed'
@@ -269,16 +270,16 @@ const App = () => {
 
   const renderInstructions = () => (
     <div className="flex flex-col items-center justify-center h-full max-w-xl mx-auto px-6 text-center animate-fadeIn font-['Poppins']">
-      <h2 className="text-3xl font-bold text-white mb-8 uppercase tracking-wide">Script Guide</h2>
+      <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 uppercase tracking-wide">Script Guide</h2>
 
-      <div className="space-y-8 bg-[#1a1a1a] p-8 w-full shadow-2xl border-l-4 border-[#D4C5B0]">
+      <div className="space-y-6 bg-[#1a1a1a] p-6 w-full shadow-2xl border-l-4 border-[#D4C5B0]">
         {/* SPOKEN LINES = GREEN */}
-        <div className="flex items-start gap-6 text-left">
+        <div className="flex items-start gap-4 text-left">
           <div className="bg-emerald-500/10 p-3 rounded-full">
             <Mic className="w-6 h-6 text-emerald-400" />
           </div>
           <div>
-            <h3 className="text-emerald-400 font-bold text-lg uppercase tracking-wider mb-1">Green Text</h3>
+            <h3 className="text-emerald-400 font-bold text-base uppercase tracking-wider mb-1">Green Text</h3>
             <p className="text-gray-400 text-sm font-light">Say these words out loud to the audience.</p>
           </div>
         </div>
@@ -286,12 +287,12 @@ const App = () => {
         <div className="w-full h-px bg-white/5" />
 
         {/* SILENT ACTIONS = RED */}
-        <div className="flex items-start gap-6 text-left">
+        <div className="flex items-start gap-4 text-left">
           <div className="bg-red-500/10 p-3 rounded-full">
             <Hand className="w-6 h-6 text-red-400" />
           </div>
           <div>
-            <h3 className="text-red-400 font-bold text-lg uppercase tracking-wider mb-1">Red Text</h3>
+            <h3 className="text-red-400 font-bold text-base uppercase tracking-wider mb-1">Red Text</h3>
             <p className="text-gray-400 text-sm font-light">These are silent actions or stage directions for you.</p>
           </div>
         </div>
@@ -299,7 +300,7 @@ const App = () => {
 
       <button
         onClick={() => setStage('intro')}
-        className="mt-12 px-8 py-4 bg-transparent border border-[#D4C5B0] text-[#D4C5B0] hover:bg-[#D4C5B0] hover:text-black text-sm font-bold tracking-[0.2em] uppercase transition-all flex items-center gap-3"
+        className="mt-8 px-8 py-3 bg-transparent border border-[#D4C5B0] text-[#D4C5B0] hover:bg-[#D4C5B0] hover:text-black text-xs md:text-sm font-bold tracking-[0.2em] uppercase transition-all flex items-center gap-3"
       >
         I Understand <ArrowRight className="w-4 h-4" />
       </button>
@@ -308,31 +309,31 @@ const App = () => {
 
   const renderIntro = () => (
     <ScriptView onNext={() => setStage('deckCheck')}>
-      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold drop-shadow-md">
+      <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
         "HELLO {audienceName}! I am {magicianName} the Great."
       </p>
-      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold drop-shadow-md">
+      <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
         "For the next 2 minutes, I am the greatest magician in this room. Sorry, but it's true."
       </p>
-      <p className="text-xl text-red-400 italic font-light tracking-wide border-l-2 border-red-500 pl-4">
+      <p className="text-base md:text-lg text-red-400 italic font-light tracking-wide border-l-2 border-red-500 pl-4 text-left">
         (Strike a confident pose)
       </p>
     </ScriptView>
   );
 
   const renderDeckCheck = () => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
-      <p className="text-3xl md:text-5xl leading-tight text-emerald-400 font-bold mb-12">
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 justify-center animate-fadeIn text-center font-['Poppins']">
+      <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold mb-8">
         "Do you happen to have a normal, regular deck of cards I can borrow for this trick?"
       </p>
 
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={() => setStage('trick_shuffle')}
-          className="py-8 bg-[#1a1a1a] border border-gray-800 hover:border-emerald-500/50 text-emerald-400 text-xl font-bold flex flex-col items-center gap-3 transition-all group"
+          className="py-6 bg-[#1a1a1a] border border-gray-800 hover:border-emerald-500/50 text-emerald-400 text-lg font-bold flex flex-col items-center gap-3 transition-all group"
         >
-          <CheckCircle className="w-8 h-8 group-hover:scale-110 transition-transform" />
-          <span className="uppercase tracking-widest text-sm">Yes</span>
+          <CheckCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
+          <span className="uppercase tracking-widest text-xs">Yes</span>
         </button>
         <button
           onClick={() => {
@@ -340,28 +341,28 @@ const App = () => {
             setIsTimerActive(false);
             setStage('deckTimer');
           }}
-          className="py-8 bg-[#1a1a1a] border border-gray-800 hover:border-red-500/50 text-red-400 text-xl font-bold flex flex-col items-center gap-3 transition-all group"
+          className="py-6 bg-[#1a1a1a] border border-gray-800 hover:border-red-500/50 text-red-400 text-lg font-bold flex flex-col items-center gap-3 transition-all group"
         >
-          <XCircle className="w-8 h-8 group-hover:scale-110 transition-transform" />
-          <span className="uppercase tracking-widest text-sm">No</span>
+          <XCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
+          <span className="uppercase tracking-widest text-xs">No</span>
         </button>
       </div>
     </div>
   );
 
   const renderTimer = () => (
-    <div className="flex flex-col h-full justify-center items-center text-center px-6 font-['Poppins']">
-      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-12 leading-relaxed">
+    <div className="flex flex-col h-full justify-center items-center text-center px-4 font-['Poppins']">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-8 leading-relaxed">
         "Well darn... I guess we'll wait for you to find one. You have 10 seconds!"
       </p>
 
       <div
-        className={`text-8xl font-black mb-12 tracking-tighter ${
+        className={`text-7xl md:text-8xl font-black mb-8 tracking-tighter ${
           !isTimerActive ? 'text-[#D4C5B0]' : 'text-red-500'
         }`}
       >
         {!isTimerActive ? (
-          <span className="text-5xl animate-pulse tracking-widest">WAITING...</span>
+          <span className="text-4xl md:text-5xl animate-pulse tracking-widest">WAITING...</span>
         ) : timeLeft > 0 ? (
           `00:${timeLeft.toString().padStart(2, '0')}`
         ) : (
@@ -374,7 +375,7 @@ const App = () => {
           timerAudioRef.current.pause();
           setStage('trick_shuffle');
         }}
-        className="px-10 py-5 bg-[#D4C5B0] text-black text-xl font-bold uppercase tracking-[0.2em] hover:bg-white transition-all shadow-xl"
+        className="px-8 py-4 bg-[#D4C5B0] text-black text-lg font-bold uppercase tracking-[0.2em] hover:bg-white transition-all shadow-xl"
       >
         Found It
       </button>
@@ -383,13 +384,13 @@ const App = () => {
 
   const renderTrickShuffle = () => (
     <ScriptView onNext={() => setStage('trick_select')}>
-      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
+      <p className="text-base md:text-lg text-red-400 italic mb-4 font-light border-l-2 border-red-500 pl-4">
         (Hand the deck to Chris)
       </p>
-      <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-8 leading-tight">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight text-center">
         "Please shuffle the deck as much as you want. Really mix them up!"
       </p>
-      <p className="text-3xl md:text-5xl text-emerald-400 font-bold leading-tight">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold leading-tight text-center">
         "Let me know when you are satisfied."
       </p>
     </ScriptView>
@@ -397,28 +398,28 @@ const App = () => {
 
   const renderTrickSelect = () => (
     <ScriptView onNext={() => setStage('choose_number_mode')}>
-      <p className="text-3xl md:text-4xl text-emerald-400 font-bold mb-6 leading-tight">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight text-center">
         "Ok now Chris, I want you to take any card out and peek at it."
       </p>
-      <p className="text-3xl md:text-4xl text-emerald-400 font-bold mb-6 leading-tight">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight text-center">
         "Make sure I do not see it, and make sure{' '}
         <span className="underline decoration-[#D4C5B0] underline-offset-4">nobody here</span> sees it."
       </p>
-      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
+      <p className="text-base md:text-lg text-red-400 italic mb-4 font-light border-l-2 border-red-500 pl-4 text-left">
         (Briefly turn your body to the side, away from Chris, so you cannot see the card he chooses.)
       </p>
-      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold leading-tight text-center">
         "Now lose the card back in the deck and shuffle again. Destroy the evidence. Tell me when you're done."
       </p>
     </ScriptView>
   );
 
   const renderChooseNumberMode = () => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
-      <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 justify-center animate-fadeIn text-center font-['Poppins']">
+      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight">
         "Now I'm going to say a number between 1 and 52."
       </p>
-      <p className="text-lg text-red-400 italic mb-12 font-light">
+      <p className="text-sm md:text-base text-red-400 italic mb-8 font-light">
         (Choose any number OR click below to generate a random one.)
       </p>
       <div className="space-y-6 w-full">
@@ -427,20 +428,20 @@ const App = () => {
             setTargetNumber(Math.floor(Math.random() * 52) + 1);
             setStage('deal_number');
           }}
-          className="w-full py-6 bg-[#1a1a1a] border border-[#D4C5B0]/30 hover:border-[#D4C5B0] hover:bg-[#252525] text-[#D4C5B0] text-xl font-bold flex flex-col items-center gap-2 transition-all group"
+          className="w-full py-5 bg-[#1a1a1a] border border-[#D4C5B0]/30 hover:border-[#D4C5B0] hover:bg-[#252525] text-[#D4C5B0] text-lg font-bold flex flex-col items-center gap-2 transition-all group"
         >
           <Sparkles className="w-6 h-6 group-hover:text-white transition-colors" />
-          <span className="uppercase tracking-[0.2em] text-sm">Generate Random Number</span>
+          <span className="uppercase tracking-[0.2em] text-xs">Generate Random Number</span>
         </button>
-        <div className="text-gray-600 text-xs font-bold uppercase tracking-[0.3em]">OR</div>
-        <div className="bg-[#1a1a1a] p-6 border-l-4 border-[#D4C5B0]">
-          <p className="text-gray-400 mb-4 text-sm uppercase tracking-wider">The number you named is...</p>
+        <div className="text-gray-600 text-[0.6rem] font-bold uppercase tracking-[0.3em]">OR</div>
+        <div className="bg-[#1a1a1a] p-5 border-l-4 border-[#D4C5B0]">
+          <p className="text-gray-400 mb-3 text-xs uppercase tracking-wider">The number you named is...</p>
           <input
             type="number"
             min="1"
             max="52"
             placeholder="#"
-            className="w-full bg-black border-b border-gray-700 p-4 text-center text-4xl text-white mb-6 focus:border-[#D4C5B0] outline-none font-bold"
+            className="w-full bg-black border-b border-gray-700 p-3 text-center text-3xl text-white mb-4 focus:border-[#D4C5B0] outline-none font-bold"
             id="manualNumInput"
           />
           <button
@@ -451,7 +452,7 @@ const App = () => {
                 setStage('deal_number');
               }
             }}
-            className="w-full py-4 bg-[#D4C5B0] hover:bg:white text-black text-sm font-bold uppercase tracking-[0.2em] transition-all"
+            className="w-full py-3 bg-[#D4C5B0] hover:bg-white text-black text-xs font-bold uppercase tracking-[0.2em] transition-all"
           >
             Use That Number
           </button>
@@ -462,18 +463,20 @@ const App = () => {
 
   const renderDealNumber = () => (
     <ScriptView onNext={() => setStage('questions')}>
-      <div className="bg-[#1a1a1a] p-8 border-l-4 border-[#D4C5B0] mb-8 text-center shrink-0">
-        <p className="text-[#D4C5B0] text-xs uppercase tracking-[0.3em] mb-2 font-bold">The Magic Number</p>
-        <div className="text-8xl font-bold text-white font-['Poppins'] tracking-tighter">{targetNumber}</div>
+      <div className="bg-[#1a1a1a] p-6 border-l-4 border-[#D4C5B0] mb-6 text-center shrink-0">
+        <p className="text-[#D4C5B0] text-[0.6rem] uppercase tracking-[0.3em] mb-2 font-bold">The Magic Number</p>
+        <div className="text-7xl md:text-8xl font-bold text-white font-['Poppins'] tracking-tighter">
+          {targetNumber}
+        </div>
       </div>
 
-      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
+      <p className="text-2xl md:text-3xl text-emerald-400 font-bold leading-tight text-center">
         "When I snap my fingers, your card will end up at the {targetNumber}th position."
       </p>
-      <p className="text-xl text-red-400 italic mb-6 font-light border-l-2 border-red-500 pl-4">
+      <p className="text-base md:text-lg text-red-400 italic mb-4 font-light border-l-2 border-red-500 pl-4 text-left">
         (Snap your fingers.)
       </p>
-      <p className="text-3xl md:text-4xl text-emerald-400 font-bold leading-tight">
+      <p className="text-2xl md:text-3xl text-emerald-400 font-bold leading-tight text-center">
         "So deal down {targetNumber - 1} cards and put the {targetNumber}th card next to the pile."
       </p>
     </ScriptView>
@@ -491,7 +494,7 @@ const App = () => {
 
     return (
       <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-6 animate-fadeIn font-['Poppins']">
-        {/* Scrollable content */}
+        {/* Scrollable content (only inside this box, not whole page) */}
         <div className="flex-grow flex flex-col justify-center space-y-4 overflow-y-auto min-h-0">
           {/* SPOKEN QUESTION (GREEN) */}
           <p className="text-2xl md:text-4xl text-emerald-400 font-bold text-center leading-tight">
@@ -499,7 +502,7 @@ const App = () => {
           </p>
 
           {/* Hint */}
-          <p className="text-sm text-gray-400 italic font-light text-center">
+          <p className="text-xs text-gray-400 italic font-light text-center">
             Click the correct choice below.
           </p>
 
@@ -509,7 +512,7 @@ const App = () => {
               <button
                 key={i}
                 onClick={() => handleAnswer(opt)}
-                className="py-5 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-base font-bold uppercase tracking-widest transition-all"
+                className="py-5 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-sm md:text-base font-bold uppercase tracking-widest transition-all"
               >
                 {opt.label}
               </button>
@@ -518,7 +521,7 @@ const App = () => {
         </div>
 
         {/* MISTAKE BUTTON */}
-        <div className="mt-auto pt-4 border-t border-gray-800 text-center">
+        <div className="mt-auto pt-4 border-top border-gray-800 text-center">
           <button
             onClick={handleMessedUp}
             className="text-gray-500 hover:text-white text-[0.65rem] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
@@ -532,19 +535,19 @@ const App = () => {
   };
 
   const renderConfirmation = () => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 justify-center items-center text-center animate-fadeIn relative font-['Poppins']">
-      <Sparkles className="w-12 h-12 text-[#D4C5B0] mb-8 animate-bounce" />
-      <p className="text-5xl text-emerald-400 font-bold mb-12 leading-tight">"{confirmationText}"</p>
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-6 justify-center items-center text-center animate-fadeIn relative font-['Poppins']">
+      <Sparkles className="w-10 h-10 text-[#D4C5B0] mb-6 animate-bounce" />
+      <p className="text-3xl md:text-4xl text-emerald-400 font-bold mb-8 leading-tight">"{confirmationText}"</p>
       <button
         onClick={handleProceedToNextQuestion}
-        className="px-10 py-5 bg-[#D4C5B0] hover:bg:white text-black rounded-sm text-lg font-bold uppercase tracking-[0.2em] shadow-lg transition-all"
+        className="px-8 py-4 bg-[#D4C5B0] hover:bg-white text-black rounded-sm text-base md:text-lg font-bold uppercase tracking-[0.2em] shadow-lg transition-all"
       >
         Continue
       </button>
-      <div className="mt-8 pt-6 border-t border-gray-800 w-full text-center">
+      <div className="mt-6 pt-4 border-t border-gray-800 w-full text-center">
         <button
           onClick={handleMessedUp}
-          className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+          className="text-gray-500 hover:text-white text-[0.7rem] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
         >
           <AlertTriangle className="w-4 h-4" />
           Wait, I messed up
@@ -554,36 +557,38 @@ const App = () => {
   );
 
   const renderAskSpecific = () => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
-      <div className="flex-grow flex flex-col justify-center space-y-8">
-        <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 py-6 animate-fadeIn relative font-['Poppins']">
+      <div className="flex-grow flex flex-col justify-center space-y-6 overflow-y-auto min-h-0">
+        <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-2 leading-tight text-center">
           "Now, for the first time, what card did you select?"
         </p>
-        <p className="text-xl text-red-400 italic mb-8 font-light border-l-2 border-red-500 pl-4">
+        <p className="text-base md:text-lg text-red-400 italic mb-4 font-light border-l-2 border-red-500 pl-4 text-left">
           (Wait for Chris to name the card.)
         </p>
-        <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">"I knew it."</p>
-        <p className="text-3xl md:text-5xl text-emerald-400 font-bold leading-tight">
+        <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-2 leading-tight text-center">
+          "I knew it."
+        </p>
+        <p className="text-2xl md:text-4xl text-emerald-400 font-bold leading-tight text-center">
           "Just to recap, you shuffled the deck, then peeked at any card and lost it again. I named a magic number,
           and you dealt down {targetNumber} cards and ended up at one card. Turn it over."
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <button
           onClick={() => {
             setStage('finale');
             playMagicSound();
           }}
-          className="w-full py-6 bg-[#D4C5B0] hover:bg:white text-black text-xl font-bold uppercase tracking-[0.2em] shadow-lg transition-all flex items-center justify-center gap-3"
+          className="w-full py-5 bg-[#D4C5B0] hover:bg-white text-black text-lg font-bold uppercase tracking-[0.2em] shadow-lg transition-all flex items-center justify-center gap-3"
         >
           Reveal <ArrowRight className="w-6 h-6" />
         </button>
 
-        <div className="pt-4 border-t border-gray-800 text-center">
+        <div className="pt-3 border-t border-gray-800 text-center">
           <button
             onClick={handleMessedUp}
-            className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+            className="text-gray-500 hover:text-white text-[0.7rem] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
           >
             <AlertTriangle className="w-4 h-4" />
             Wait, Back One Step
@@ -594,15 +599,17 @@ const App = () => {
   );
 
   const renderApology = () => (
-    <div className="flex flex-col items-center justify-center h-full text-center animate-fadeIn px-6 bg-red-950/20 font-['Poppins']">
-      <AlertTriangle className="w-16 h-16 text-orange-500 mb-6" />
-      <h2 className="text-2xl text-orange-200 mb-8 font-bold uppercase tracking-widest">Correction Mode</h2>
-      <p className="text-4xl text-emerald-400 font-bold mb-12">
+    <div className="flex flex-col items-center justify-center h-full text-center animate-fadeIn px-4 bg-red-950/20 font-['Poppins']">
+      <AlertTriangle className="w-14 h-14 text-orange-500 mb-5" />
+      <h2 className="text-xl md:text-2xl text-orange-200 mb-6 font-bold uppercase tracking-widest">
+        Correction Mode
+      </h2>
+      <p className="text-2xl md:text-3xl text-emerald-400 font-bold mb-8">
         "OH... the spirits are confused. I meant to say...."
       </p>
       <button
         onClick={handleApologyRecover}
-        className="px-10 py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-sm text-lg font-bold uppercase tracking-[0.2em] shadow-lg"
+        className="px-8 py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-sm text-base md:text-lg font-bold uppercase tracking-[0.2em] shadow-lg"
       >
         Try That Again
       </button>
@@ -610,22 +617,22 @@ const App = () => {
   );
 
   const renderFinale = () => (
-    <div className="flex flex-col items-center justify-center h-full text-center animate-zoomIn px-6 font-['Poppins'] relative">
+    <div className="flex flex-col items-center justify-center h-full text-center animate-zoomIn px-4 font-['Poppins'] relative">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#D4C5B0] blur-[100px] opacity-20 animate-pulse"></div>
       </div>
 
       <div className="relative z-10 w-full max-w-md">
-        <div className="mb-12">
-          <p className="text-5xl md:text-7xl text-emerald-400 font-bold drop-shadow-2xl tracking-tighter uppercase mb-6">
+        <div className="mb-8">
+          <p className="text-3xl md:text-5xl text-emerald-400 font-bold drop-shadow-2xl tracking-tighter uppercase mb-4">
             "Amazing. I'm the best."
           </p>
-          <p className="text-3xl md:text-5xl text-emerald-400 font-bold uppercase tracking-tight mb-4 leading-tight">
+          <p className="text-2xl md:text-4xl text-emerald-400 font-bold uppercase tracking-tight mb-3 leading-tight">
             "Give me a round of applause."
           </p>
         </div>
 
-        <p className="text-[#D4C5B0] italic mb-12 font-light tracking-widest text-sm">
+        <p className="text-[#D4C5B0] italic mb-8 font-light tracking-widest text-xs md:text-sm">
           (Playing Finale Music...)
         </p>
 
@@ -633,14 +640,14 @@ const App = () => {
           onClick={() => {
             window.location.href = TARGET_URL;
           }}
-          className="w-full py-6 bg-[#D4C5B0] hover:bg:white text-black rounded-sm font-bold text-xl uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,197,176,0.3)] mb-6 transition-all transform hover:scale-105"
+          className="w-full py-5 bg-[#D4C5B0] hover:bg-white text-black rounded-sm font-bold text-lg uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,197,176,0.3)] mb-5 transition-all transform hover:scale-105"
         >
           Take a Bow
         </button>
 
         <button
           onClick={handleRestart}
-          className="text-gray-600 hover:text-white transition-colors uppercase tracking-[0.2em] text-xs font-bold flex items-center justify-center gap-2 mx-auto"
+          className="text-gray-600 hover:text-white transition-colors uppercase tracking-[0.2em] text-[0.75rem] font-bold flex items-center justify-center gap-2 mx-auto"
         >
           <RotateCcw className="w-3 h-3" />
           Reset App
@@ -652,8 +659,14 @@ const App = () => {
   // --- MAIN RENDER ---
   return (
     <div className="h-screen bg-[#111111] text-white overflow-hidden font-sans flex flex-col selection:bg-[#D4C5B0] selection:text-black">
-      {/* Font Import + scrollbar hide */}
+      {/* Global styles: lock viewport and remove body margin */}
       <style>{`
+        html, body, #root {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
