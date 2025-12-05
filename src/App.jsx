@@ -387,8 +387,21 @@ const App = () => {
         (Hand the deck to Chris)
       </p>
       <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight text-center">
+        "Check and see if all the cards are different?"
+      </p>
+
+ <p className="text-base md:text-lg text-red-400 italic mb-4 font-light border-l-2 border-red-500 pl-4">
+        (wait for him to show the cards)
+      </p>
+
+
+
+<p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight text-center">
         "Please shuffle the deck as much as you want. Really mix them up!"
       </p>
+
+
+
       <p className="text-2xl md:text-4xl text-emerald-400 font-bold leading-tight text-center">
         "Let me know when you are satisfied."
       </p>
