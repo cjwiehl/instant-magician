@@ -427,51 +427,49 @@ const App = () => {
   );
 
   const renderChooseNumberMode = () => (
-    <div className="flex flex-col h-full max-w-2xl mx-auto px-4 justify-center animate-fadeIn text-center font-['Poppins']">
-      <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-4 leading-tight">
-        "Now I'm going to say a number between 1 and 52."
+  <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
+    
+    {/* SPOKEN LINE */}
+    <p className="text-3xl md:text-5xl text-emerald-400 font-bold mb-6 leading-tight">
+      "Now I'm going to say a number between 1 and 52."
+    </p>
+
+    {/* SPOKEN INSTRUCTION */}
+    <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-10 leading-tight">
+      "Think of a number and type it in the box below, then press 'Use That Number.'"
+    </p>
+
+    {/* INPUT AREA */}
+    <div className="bg-[#1a1a1a] p-6 border border-gray-700 max-w-sm mx-auto w-full">
+      
+      <p className="text-gray-400 mb-3 text-sm uppercase tracking-widest font-bold">
+        TYPE NUMBER HERE
       </p>
-      <p className="text-sm md:text-base text-red-400 italic mb-8 font-light">
-        (Choose any number OR click below to generate a random one.)
-      </p>
-      <div className="space-y-6 w-full">
-        <button
-          onClick={() => {
-            setTargetNumber(Math.floor(Math.random() * 52) + 1);
+
+      <input
+        type="number"
+        min="1"
+        max="52"
+        placeholder="#"
+        className="w-full bg-black border-2 border-[#D4C5B0] p-4 text-center text-4xl text-white mb-6 outline-none font-bold focus:ring-2 focus:ring-[#D4C5B0]"
+        id="manualNumInput"
+      />
+
+      <button
+        onClick={() => {
+          const val = document.getElementById('manualNumInput').value;
+          if (val && val >= 1 && val <= 52) {
+            setTargetNumber(parseInt(val, 10));
             setStage('deal_number');
-          }}
-          className="w-full py-5 bg-[#1a1a1a] border border-[#D4C5B0]/30 hover:border-[#D4C5B0] hover:bg-[#252525] text-[#D4C5B0] text-lg font-bold flex flex-col items-center gap-2 transition-all group"
-        >
-          <Sparkles className="w-6 h-6 group-hover:text-white transition-colors" />
-          <span className="uppercase tracking-[0.2em] text-xs">Generate Random Number</span>
-        </button>
-        <div className="text-gray-600 text-[0.6rem] font-bold uppercase tracking-[0.3em]">OR</div>
-        <div className="bg-[#1a1a1a] p-5 border-l-4 border-[#D4C5B0]">
-          <p className="text-gray-400 mb-3 text-xs uppercase tracking-wider">The number you named is...</p>
-          <input
-            type="number"
-            min="1"
-            max="52"
-            placeholder="#"
-            className="w-full bg-black border-b border-gray-700 p-3 text-center text-3xl text-white mb-4 focus:border-[#D4C5B0] outline-none font-bold"
-            id="manualNumInput"
-          />
-          <button
-            onClick={() => {
-              const val = document.getElementById('manualNumInput').value;
-              if (val && val > 0 && val < 53) {
-                setTargetNumber(parseInt(val, 10));
-                setStage('deal_number');
-              }
-            }}
-            className="w-full py-3 bg-[#D4C5B0] hover:bg-white text-black text-xs font-bold uppercase tracking-[0.2em] transition-all"
-          >
-            Use That Number
-          </button>
-        </div>
-      </div>
+          }
+        }}
+        className="w-full py-4 bg-[#D4C5B0] hover:bg-white text-black text-sm font-bold uppercase tracking-[0.2em] transition-all"
+      >
+        Use That Number
+      </button>
     </div>
-  );
+  </div>
+);
 
   const renderDealNumber = () => (
     <ScriptView onNext={() => setStage('questions')}>
