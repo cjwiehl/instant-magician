@@ -306,19 +306,26 @@ const App = () => {
     </div>
   );
 
-  const renderIntro = () => (
-    <ScriptView onNext={() => setStage('deckCheck')}>
-      <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
-        "HELLO {audienceName}! I am {magicianName} the Great."
-      </p>
-      <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
-        "For the next 2 minutes, I am the greatest magician in this room. Sorry, but it's true."
-      </p>
-      <p className="text-base md:text-lg text-red-400 italic font-light tracking-wide border-l-2 border-red-500 pl-4 text-left">
-        (Strike a confident pose)
-      </p>
-    </ScriptView>
-  );
+const renderIntro = () => (
+  <ScriptView onNext={() => setStage('deckCheck')}>
+    
+    {/* SPOKEN LINE */}
+    <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
+      HELLO {audienceName}! I am {magicianName} the Great.
+    </p>
+
+    {/* ACTION – BIGGER & CLEARER */}
+    <p className="text-xl md:text-2xl text-red-400 italic font-semibold tracking-wide text-center">
+      (Strike a confident pose)
+    </p>
+
+    {/* SPOKEN LINE */}
+    <p className="text-2xl md:text-4xl leading-tight text-emerald-400 font-bold drop-shadow-md text-center">
+      For the next 2 minutes, I am the greatest magician in this room. Sorry, but it's true.
+    </p>
+
+  </ScriptView>
+);
 
   const renderDeckCheck = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-4 justify-center animate-fadeIn text-center font-['Poppins']">
@@ -434,10 +441,11 @@ const App = () => {
       "Now I'm going to say a number between 1 and 52."
     </p>
 
-    {/* SPOKEN INSTRUCTION */}
-    <p className="text-2xl md:text-4xl text-emerald-400 font-bold mb-10 leading-tight">
-      "Think of a number and type it in the box below, then press 'Use That Number.'"
-    </p>
+    {/* READ INSTRUCTION */}
+    <p className="text-2xl md:text-4xl text-red-400 font-bold mb-10 leading-tight">
+  Think of a number and type it in the box below, then press <span className="italic">"Use That Number"</span>.
+</p>
+
 
     {/* INPUT AREA */}
     <div className="bg-[#1a1a1a] p-6 border border-gray-700 max-w-sm mx-auto w-full">
