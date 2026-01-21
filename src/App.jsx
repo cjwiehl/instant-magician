@@ -17,9 +17,9 @@ const App = () => {
   const [audienceName] = useState('Chris');
 
   // Stages:
-  // setup, instructions, intro, deckCheck, deckTimer, trick_shuffle, trick_select,
-  // choose_number_mode, deal_number, questions, confirmation, ask_specific_card,
-  // drumroll, apology, finale
+  // setup, instructions, intro, deckCheck, deckTimer, trick_shuffle,
+  // choose_number_mode, deal_number, first_guess, first_guess_hit,
+  // questions, confirmation, ask_specific_card, drumroll, apology, finale
   const [stage, setStage] = useState('setup');
   const [previousStage, setPreviousStage] = useState(null);
 
@@ -30,9 +30,9 @@ const App = () => {
   // Trick values
   const [targetNumber, setTargetNumber] = useState(null);
 
-  // New “equivoque-ish” flow tracking
+  // Fallback flow tracking (color -> suit -> high/low)
   const [qStep, setQStep] = useState(0); // 0=color, 1=suit, 2=high
-  const [wasFirstCorrect, setWasFirstCorrect] = useState(null); // true/false
+  const [wasFirstCorrect, setWasFirstCorrect] = useState(null); // true/false for "red?"
   const [cardAttributes, setCardAttributes] = useState({
     color: '', // Red/Black
     suit: '', // Heart/Diamond/Club/Spade
@@ -48,7 +48,6 @@ const App = () => {
   const FINALE_SONG_URL = 'https://cdn1.suno.ai/436bd471-0369-4a2d-8db0-1541e0a671b0.mp3';
   const MAGIC_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3';
   const TIMER_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3';
-  // (Keeping it safe: use magic sound as the “drumroll” cue)
   const DRUMROLL_SOUND_URL = MAGIC_SOUND_URL;
 
   const magicRef = useRef(new Audio(MAGIC_SOUND_URL));
@@ -138,13 +137,13 @@ const App = () => {
   };
 
   const handleApologyRecover = () => {
-    // go back one step in the Q flow if we were in Q/confirm
+    // If they messed up during fallback Q flow
     if (previousStage === 'questions' || previousStage === 'confirmation') {
       if (qStep > 0) {
         setQStep((s) => s - 1);
         setStage('questions');
       } else {
-        setStage('deal_number');
+        setStage('first_guess'); // back right before the fallback starts
       }
       return;
     }
@@ -170,104 +169,62 @@ const App = () => {
     setMagicianName('');
   };
 
-  // --- QUESTION FLOW (NEW LOGIC) ---
-
+  // --- FALLBACK QUESTION FLOW HELPERS ---
   const getSuitPair = () => {
-    // based on chosen color, pick the red-pair or black-pair
     if (cardAttributes.color === 'Red') return ['Heart', 'Diamond'];
     if (cardAttributes.color === 'Black') return ['Club', 'Spade'];
-    // if not known yet, default to red pair
     return ['Heart', 'Diamond'];
   };
 
-  const getDisplayedSuitForQuestion = () => {
-    const [a] = getSuitPair();
-    return a;
-  };
-
-  const getAlternativeSuit = () => {
-    const [a, b] = getSuitPair();
-    // “alternative suit that matches the flow so far”
-    // If we asked about 'a', alternative is 'b'
-    return a === getDisplayedSuitForQuestion() ? b : a;
-  };
+  // We ask about the first suit in the pair, then "No" implies the other.
+  const getSuitAsked = () => getSuitPair()[0];
+  const getAlternativeSuit = () => getSuitPair()[1];
 
   const makeConfirmationForColor = (answerYes) => {
-    // Q: “Is your card red?”
-    // Yes: “I knew that.”  No: “I didn’t think so.”
+    // Question is: "…your card is a red card, correct?"
     return answerYes ? 'I knew that.' : "I didn’t think so.";
   };
 
   const makeConfirmationForSuit = (answerYes) => {
-    // Q: “Is it a (SUIT)?”
-    // Yes:
-    //   if first correct: “Yes, 2 for 2.”
-    //   if first incorrect: “I am locked in now.”
-    // No:
-    //   if first incorrect: “I didn’t think so either.”
-    //   if first correct: “I meant to say (alternative suit)”
     if (answerYes) {
       return wasFirstCorrect ? 'Yes, 2 for 2.' : 'I am locked in now.';
     }
+    // No
     return wasFirstCorrect ? `I meant to say ${getAlternativeSuit()}.` : "I didn’t think so either.";
   };
 
   const makeConfirmationForHigh = (answerYes) => {
-    // Q: “Was it a high card?”
-    // Yes: “I think I know what it is!”
-    // No: “I meant to say I screwed up.”
     return answerYes ? 'I think I know what it is!' : 'I meant to say I screwed up.';
   };
 
-  const onAnswerQuestions = (answerYes) => {
-    // Step 0: Color (Is your card red?)
+  const onAnswerFallback = (answerYes) => {
     if (qStep === 0) {
       const color = answerYes ? 'Red' : 'Black';
-      // “correctness” is performative—treat YES as “correct”
       setWasFirstCorrect(answerYes);
-
       setCardAttributes((prev) => ({
         ...prev,
         color,
         suit: '',
         range: '',
       }));
-
       setConfirmationText(makeConfirmationForColor(answerYes));
       setStage('confirmation');
       playMagicSound();
       return;
     }
 
-    // Step 1: Suit (Is it a {suit}?)
     if (qStep === 1) {
-      const suitAsked = getDisplayedSuitForQuestion();
-      const [a, b] = getSuitPair();
-
-      // If yes -> choose suitAsked
-      // If no -> choose the other suit in the pair (so it still matches the color flow)
-      const suit = answerYes ? suitAsked : (suitAsked === a ? b : a);
-
-      setCardAttributes((prev) => ({
-        ...prev,
-        suit,
-      }));
-
+      const suit = answerYes ? getSuitAsked() : getAlternativeSuit();
+      setCardAttributes((prev) => ({ ...prev, suit }));
       setConfirmationText(makeConfirmationForSuit(answerYes));
       setStage('confirmation');
       playMagicSound();
       return;
     }
 
-    // Step 2: High/Low (Was it a high card?)
     if (qStep === 2) {
       const range = answerYes ? 'High' : 'Low';
-
-      setCardAttributes((prev) => ({
-        ...prev,
-        range,
-      }));
-
+      setCardAttributes((prev) => ({ ...prev, range }));
       setConfirmationText(makeConfirmationForHigh(answerYes));
       setStage('confirmation');
       playMagicSound();
@@ -276,7 +233,6 @@ const App = () => {
   };
 
   const handleProceedAfterConfirmation = () => {
-    // After High question, move to ask_specific_card
     if (qStep >= 2) {
       setStage('ask_specific_card');
       return;
@@ -285,8 +241,7 @@ const App = () => {
     setStage('questions');
   };
 
-  // --- RENDERERS ---
-
+  // --- UI HELPERS ---
   const ScriptView = ({ children, onNext, nextLabel = 'NEXT STEP' }) => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 pt-8 pb-6 animate-fadeIn font-['Poppins']">
       <div className="flex-grow flex flex-col justify-center space-y-6 min-h-0 overflow-hidden">
@@ -301,7 +256,7 @@ const App = () => {
     </div>
   );
 
-  // GREEN = spoken, RED = actions (and same size as green)
+  // GREEN = spoken, RED = actions (same size)
   const Spoken = ({ children, center = true }) => (
     <p
       className={[
@@ -319,6 +274,7 @@ const App = () => {
     </p>
   );
 
+  // --- RENDERERS ---
   const renderSetup = () => (
     <div className="flex flex-col items-center justify-center h-full space-y-8 animate-fadeIn max-w-md mx-auto px-6 font-['Poppins'] relative z-10">
       <div className="text-center space-y-4">
@@ -367,7 +323,7 @@ const App = () => {
           </div>
           <div>
             <h3 className="text-emerald-400 font-bold text-lg uppercase tracking-wider mb-1">Green Text</h3>
-            <p className="text-gray-400 text-sm font-light">Read these words out loud to the audience.</p>
+            <p className="text-gray-400 text-sm font-light">Read these words out loud.</p>
           </div>
         </div>
 
@@ -379,7 +335,7 @@ const App = () => {
           </div>
           <div>
             <h3 className="text-red-400 font-bold text-lg uppercase tracking-wider mb-1">Red Text</h3>
-            <p className="text-gray-400 text-sm font-light">These are silent actions for you to perform.</p>
+            <p className="text-gray-400 text-sm font-light">Silent actions for you to do.</p>
           </div>
         </div>
       </div>
@@ -466,33 +422,20 @@ const App = () => {
   );
 
   const renderTrickShuffle = () => (
-    <ScriptView onNext={() => setStage('trick_select')}>
-      <Action>(Hand the deck to Chris)</Action>
-      <Spoken>"Please shuffle the deck as much as you want. Really mix them up!"</Spoken>
-      <Spoken>"Let me know when you are satisfied."</Spoken>
-    </ScriptView>
-  );
-
-  const renderTrickSelect = () => (
     <ScriptView onNext={() => setStage('choose_number_mode')}>
-      <Spoken>"Ok now Chris, I want you to take any card out and peek at it."</Spoken>
-      <Spoken>
-        "Make sure I do not see it, and make sure{' '}
-        <span className="underline decoration-[#D4C5B0] underline-offset-4">nobody here</span> sees it."
-      </Spoken>
-      <Action>(Briefly turn your body to the side, away from Chris, so you cannot see the card he chooses.)</Action>
-      <Spoken>"Now lose the card back in the deck and shuffle again. Destroy the evidence. Tell me when you're done."</Spoken>
+      <Action>(Hand the deck to Chris)</Action>
+      <Spoken>"Shuffle the deck as much as you want. Really mix them up!"</Spoken>
+      <Spoken>"Now—without taking a card out—just think of any card in the deck and lock it in your head."</Spoken>
+      <Action>(Watch their face. Let them “commit” to the thought.)</Action>
     </ScriptView>
   );
 
-  // MANUAL ONLY (no random generator)
+  // UPDATED number page (1–25) + your exact scripting
   const renderChooseNumberMode = () => (
     <div className="flex flex-col h-full max-w-2xl mx-auto px-6 justify-center animate-fadeIn text-center font-['Poppins']">
-      <Spoken>"Now I'm going to say a number between 1 and 52."</Spoken>
+      <Spoken>"Now think of that card and I will peer into your soul...."</Spoken>
 
-      <Action>
-        Think of a number and type it in the box below and then press "Use That Number"
-      </Action>
+      <Action>(Look at Chris and do a mind reading gesture. Then type in any number between 1 and 25.)</Action>
 
       <div className="bg-[#1a1a1a] p-6 mt-10 border-l-4 border-[#D4C5B0] w-full">
         <p className="text-gray-300 mb-4 text-sm uppercase tracking-[0.25em] font-bold">
@@ -502,7 +445,7 @@ const App = () => {
         <input
           type="number"
           min="1"
-          max="52"
+          max="25"
           placeholder="#"
           className="w-full bg-black border border-gray-700 rounded-sm p-4 text-center text-4xl text-white mb-6 focus:border-[#D4C5B0] outline-none font-bold"
           id="manualNumInput"
@@ -512,8 +455,15 @@ const App = () => {
           onClick={() => {
             const val = document.getElementById('manualNumInput')?.value;
             const n = parseInt(val, 10);
-            if (!Number.isNaN(n) && n >= 1 && n <= 52) {
+            if (!Number.isNaN(n) && n >= 1 && n <= 25) {
               setTargetNumber(n);
+
+              // reset fallback flow in case they've run it before
+              setQStep(0);
+              setWasFirstCorrect(null);
+              setCardAttributes({ color: '', suit: '', range: '' });
+              setConfirmationText('');
+
               setStage('deal_number');
             }
           }}
@@ -525,44 +475,122 @@ const App = () => {
     </div>
   );
 
+  // UPDATED: big number green + instructions green
   const renderDealNumber = () => (
-    <ScriptView onNext={() => { setQStep(0); setStage('questions'); }}>
+    <ScriptView onNext={() => setStage('first_guess')}>
       <div className="bg-[#1a1a1a] p-6 border-l-4 border-[#D4C5B0] mb-8 text-center shrink-0">
         <p className="text-[#D4C5B0] text-xs uppercase tracking-[0.3em] mb-2 font-bold">The Magic Number</p>
-        <div className="text-7xl md:text-8xl font-bold text-white font-['Poppins'] tracking-tighter">
+        <div className="text-7xl md:text-8xl font-bold text-emerald-400 font-['Poppins'] tracking-tighter">
           {targetNumber}
         </div>
       </div>
 
-      <Spoken>"When I snap my fingers, your card will end up at the {targetNumber}th position."</Spoken>
-      <Action>(Snap your fingers.)</Action>
-      <Spoken>"So deal down {targetNumber - 1} cards and put the {targetNumber}th card next to the pile."</Spoken>
+      <Spoken>
+        "The card you are thinking of is exactly {targetNumber} cards down in the deck. So deal down{' '}
+        {targetNumber - 1} cards down in a pile and put the {targetNumber} card next to it face down."
+      </Spoken>
+
+      <Action>(Let them deal. Keep it slow. Don’t rush the moment.)</Action>
     </ScriptView>
   );
 
+  // FIRST GUESS page
+  const renderFirstGuess = () => (
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
+      <div className="flex-grow flex flex-col justify-center space-y-8">
+        <Spoken>"Did you choose the 3 of hearts?"</Spoken>
+        <Action>Click the answer below.</Action>
+
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            onClick={() => {
+              playMagicSound();
+              setStage('first_guess_hit');
+            }}
+            className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
+          >
+            YES
+          </button>
+          <button
+            onClick={() => {
+              playMagicSound();
+              setStage('questions'); // start fallback questions
+            }}
+            className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
+          >
+            NO
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-auto pt-6 border-t border-gray-800 text-center">
+        <button
+          onClick={handleMessedUp}
+          className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+        >
+          <AlertTriangle className="w-4 h-4" />
+          Wait, I messed up
+        </button>
+      </div>
+    </div>
+  );
+
+  // IF FIRST GUESS IS YES
+  const renderFirstGuessHit = () => (
+    <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 justify-center items-center text-center animate-fadeIn relative font-['Poppins']">
+      <Spoken>"I knew it."</Spoken>
+
+      <Spoken>
+        "By reading your mind I could tell that your card was exactly {targetNumber} cards down. Not{' '}
+        {targetNumber - 1}, or {targetNumber + 1}, but exactly {targetNumber} cards down. Turn your card over."
+      </Spoken>
+
+      <Action>(Press the button when the card turns over.)</Action>
+
+      <button
+        onClick={() => {
+          playMagicSound();
+          setStage('finale');
+        }}
+        className="mt-10 w-full max-w-md py-6 bg-[#D4C5B0] hover:bg-white text-black text-xl font-bold uppercase tracking-[0.25em] shadow-lg transition-all"
+      >
+        REVEAL
+      </button>
+
+      <div className="mt-8 pt-6 border-t border-gray-800 w-full text-center">
+        <button
+          onClick={handleMessedUp}
+          className="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 mx-auto transition-colors"
+        >
+          <AlertTriangle className="w-4 h-4" />
+          Wait, Back One Step
+        </button>
+      </div>
+    </div>
+  );
+
+  // FALLBACK QUESTIONS page (starts after "NO" on first guess)
   const renderQuestions = () => {
-    // Step prompts
     let spokenLine = '';
-    if (qStep === 0) spokenLine = 'Is your card red?';
-    if (qStep === 1) spokenLine = `Is it a ${getDisplayedSuitForQuestion()}?`;
+    if (qStep === 0) spokenLine = 'That would have been amazing... But I do feel that your card is a red card, correct?';
+    if (qStep === 1) spokenLine = `Is it a ${getSuitAsked()}?`;
     if (qStep === 2) spokenLine = 'Think if the card is low, like Ace to 7, or high like 8 to King. Was it a high card?';
 
     return (
       <div className="flex flex-col h-full max-w-2xl mx-auto px-6 py-8 animate-fadeIn relative font-['Poppins']">
         <div className="flex-grow flex flex-col justify-center space-y-8">
           <Spoken>"{spokenLine}"</Spoken>
-
-          <Action>Click the correct choice below.</Action>
+          <Action>Click the answer below.</Action>
 
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => onAnswerQuestions(true)}
+              onClick={() => onAnswerFallback(true)}
               className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
             >
               YES
             </button>
             <button
-              onClick={() => onAnswerQuestions(false)}
+              onClick={() => onAnswerFallback(false)}
               className="py-8 bg-[#1a1a1a] border border-gray-700 hover:border-[#D4C5B0] text-white text-lg font-bold uppercase tracking-widest transition-all"
             >
               NO
@@ -610,14 +638,14 @@ const App = () => {
   const renderAskSpecific = () => (
     <ScriptView onNext={() => { setStage('drumroll'); playDrumroll(); }} nextLabel="NEXT">
       <Spoken>
-        "For the first time, what {cardAttributes.range} {cardAttributes.suit} card did you choose?"
+        "For the first time, what {cardAttributes.range} {cardAttributes.suit} card did you think of?"
       </Spoken>
-      <Action>(Wait for Chris to name the card.)</Action>
+      <Action>(Wait for Chris to name it.)</Action>
 
-      <Spoken>"I knew it."</Spoken>
+      <Spoken>"I knew it, I knew your card was exactly {targetNumber} cards down! But how?"</Spoken>
 
       <Spoken>
-        "I knew your card was exactly {targetNumber} cards down! But how? You shuffled the deck, thought of a card and I told you to deal exactly {targetNumber} cards down — a number you could not have known."
+        "You shuffled the deck, thought of a card, and I told you to deal exactly {targetNumber} cards down... a number you could not have known."
       </Spoken>
     </ScriptView>
   );
@@ -652,7 +680,9 @@ const App = () => {
     <div className="flex flex-col items-center justify-center h-full text-center animate-fadeIn px-6 bg-red-950/20 font-['Poppins']">
       <AlertTriangle className="w-16 h-16 text-orange-500 mb-6" />
       <h2 className="text-2xl text-orange-200 mb-8 font-bold uppercase tracking-widest">Correction Mode</h2>
-      <p className="text-2xl md:text-4xl text-red-200 font-bold mb-10">"OH... the spirits are confused. I meant to say...."</p>
+      <p className="text-2xl md:text-4xl text-red-200 font-bold mb-10">
+        "OH... the spirits are confused. I meant to say...."
+      </p>
       <button
         onClick={handleApologyRecover}
         className="px-10 py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-sm text-lg font-bold uppercase tracking-[0.2em] shadow-lg"
@@ -677,10 +707,7 @@ const App = () => {
         <p className="text-[#D4C5B0] italic mb-10 font-light tracking-widest text-sm">(Playing Finale Music...)</p>
 
         <button
-          onClick={() => {
-            // Use assign to be extra reliable on hosted contexts
-            window.location.assign(TARGET_URL);
-          }}
+          onClick={() => window.location.assign(TARGET_URL)}
           className="w-full py-6 bg-[#D4C5B0] hover:bg-white text-black rounded-sm font-bold text-xl uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,197,176,0.3)] mb-6 transition-all transform hover:scale-105"
         >
           Take a Bow
@@ -704,9 +731,9 @@ const App = () => {
     'deckCheck',
     'deckTimer',
     'trick_shuffle',
-    'trick_select',
     'choose_number_mode',
     'deal_number',
+    'first_guess',
     'questions',
     'ask_specific_card',
     'drumroll',
@@ -719,7 +746,6 @@ const App = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
 
-        /* Stop the tiny “mobile scroll” */
         .appRoot{
           height: 100dvh;
           height: 100svh;
@@ -731,9 +757,6 @@ const App = () => {
           height: 100%;
           overflow: hidden;
         }
-
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
@@ -754,9 +777,10 @@ const App = () => {
         {stage === 'deckCheck' && renderDeckCheck()}
         {stage === 'deckTimer' && renderTimer()}
         {stage === 'trick_shuffle' && renderTrickShuffle()}
-        {stage === 'trick_select' && renderTrickSelect()}
         {stage === 'choose_number_mode' && renderChooseNumberMode()}
         {stage === 'deal_number' && renderDealNumber()}
+        {stage === 'first_guess' && renderFirstGuess()}
+        {stage === 'first_guess_hit' && renderFirstGuessHit()}
         {stage === 'questions' && renderQuestions()}
         {stage === 'confirmation' && renderConfirmation()}
         {stage === 'ask_specific_card' && renderAskSpecific()}
