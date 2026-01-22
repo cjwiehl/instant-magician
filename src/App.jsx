@@ -1,4 +1,3 @@
-```jsx
 // src/App.js
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Hand, Mic, CheckCircle, XCircle, AlertTriangle, RotateCcw } from 'lucide-react';
@@ -847,4 +846,3 @@ const App = () => {
 };
 
 export default App;
-```
